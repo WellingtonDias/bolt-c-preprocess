@@ -81,12 +81,12 @@ module.exports = function(TASK,OPTIONS)
 	if (!("output" in OPTIONS)) bolt.throwError(`c-preprocess: "output" not defined in task "${TASK}"`);
 	if (bolt.isNotString(OPTIONS.input)) bolt.throwError(`c-preprocess: Bad formatted "input" "${OPTIONS.input}" in task "${TASK}"`);
 	if (bolt.isNotString(OPTIONS.output)) bolt.throwError(`c-preprocess: Bad formatted "output" "${OPTIONS.output}" in task "${TASK}"`);
-	if (helper.isNotPath(OPTIONS.input) || helper.isNotFile(OPTIONS.input)) bolt.throwError(`c-preprocess: File "${OPTIONS.input}" not found`);
-	if ((OPTIONS.output.charAt(OPTIONS.output.length - 1) === "/") || (helper.isPath(OPTIONS.output) && helper.isNotFile(OPTIONS.output))) bolt.throwError(`c-preprocess: Invalid "output" "${OPTIONS.output}" in task "${TASK}"`);
+	if (bolt.isNotPath(OPTIONS.input) || bolt.isNotFile(OPTIONS.input)) bolt.throwError(`c-preprocess: File "${OPTIONS.input}" not found`);
+	if ((OPTIONS.output.charAt(OPTIONS.output.length - 1) === "/") || (bolt.isPath(OPTIONS.output) && bolt.isNotFile(OPTIONS.output))) bolt.throwError(`c-preprocess: Invalid "output" "${OPTIONS.output}" in task "${TASK}"`);
 
 	const directory = dirname(OPTIONS.output);
-	if (helper.isNotPath(directory)) fs.mkdirSync(directory,{recursive: true});
-	else if (helper.isNotDirectory(directory)) bolt.throwError(`c-preprocess: Invalid "output" "${OPTIONS.output}" in task "${TASK}"`);
+	if (bolt.isNotPath(directory)) fs.mkdirSync(directory,{recursive: true});
+	else if (bolt.isNotDirectory(directory)) bolt.throwError(`c-preprocess: Invalid "output" "${OPTIONS.output}" in task "${TASK}"`);
 
 	fs.writeFileSync(OPTIONS.output,processMacros(fs.readFileSync(OPTIONS.input,"utf8")));
 };
