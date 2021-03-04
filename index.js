@@ -42,7 +42,7 @@ const processParameters = function(PARAMETERS,BODY)
 {
 	let parameters = PARAMETERS;
 	let body = BODY;
-	if (PARAMETERS !== "")
+	if (PARAMETERS !== undefined)
 	{
 		const splittedParameters = PARAMETERS.split(",");
 		for (let oldParameter of splittedParameters)
